@@ -4,13 +4,12 @@ go 1.12
 
 require (
 	cloud.google.com/go v0.43.0 // indirect
-	github.com/atomix/api v0.0.0-20200123231207-4e5fb1cbaf40
-	github.com/atomix/go-framework v0.0.0-20200124005401-251d56394345
-	github.com/atomix/go-local v0.0.0-20200124003802-357f6682b2f4
+	github.com/atomix/api v0.0.0-20200202100958-13b24edbe32d
+	github.com/atomix/go-framework v0.0.0-20200202102454-440bc2678f1c
+	github.com/atomix/go-local v0.0.0-20200202105028-743d224c66eb
 	github.com/gogo/protobuf v1.3.1
 	github.com/google/pprof v0.0.0-20190723021845-34ac40c74b70 // indirect
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
-	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/kr/pty v1.1.8 // indirect
 	github.com/sirupsen/logrus v1.4.2
 	github.com/stretchr/objx v0.2.0 // indirect

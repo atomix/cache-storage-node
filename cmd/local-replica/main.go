@@ -32,17 +32,17 @@ func main() {
 	log.SetLevel(log.TraceLevel)
 	log.SetOutput(os.Stdout)
 
-	partitionConfig := parsePartitionConfig()
+	clusterConfig := parseClusterConfig()
 
 	// Start the node. The node will be started in its own goroutine.
-	member := partitionConfig.Members[0]
+	member := clusterConfig.Members[0]
 	address := fmt.Sprintf("%s:%d", member.Host, member.APIPort)
 	lis, err := net.Listen("tcp", address)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	node := local.NewNode(lis, registry.Registry)
+	node := local.NewNode(lis, registry.Registry, clusterConfig.Partitions)
 	if err := node.Start(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -60,17 +60,17 @@ func main() {
 	}
 }
 
-func parsePartitionConfig() *controller.PartitionConfig {
-	nodeConfigFile := os.Args[2]
-	nodeConfig := &controller.PartitionConfig{}
-	nodeBytes, err := ioutil.ReadFile(nodeConfigFile)
+func parseClusterConfig() *controller.ClusterConfig {
+	clusterConfigFile := os.Args[2]
+	clusterConfig := &controller.ClusterConfig{}
+	clusterConfigBytes, err := ioutil.ReadFile(clusterConfigFile)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	if err := jsonpb.Unmarshal(bytes.NewReader(nodeBytes), nodeConfig); err != nil {
+	if err := jsonpb.Unmarshal(bytes.NewReader(clusterConfigBytes), clusterConfig); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	return nodeConfig
+	return clusterConfig
 }
