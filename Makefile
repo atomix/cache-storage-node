@@ -21,8 +21,8 @@ linters: # @HELP examines Go source code and reports coding problems
 license_check: # @HELP examine and ensure license headers exist
 	./build/licensing/boilerplate.py -v
 
-image: # @HELP build local-replica Docker image
-image: build
+images: # @HELP build local-replica Docker image
+images: build
 	docker build . -f build/docker/Dockerfile -t atomix/local-replica:${ATOMIX_LOCAL_REPLICA_VERSION}
 
 push: # @HELP push local-replica Docker image
