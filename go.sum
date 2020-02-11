@@ -11,7 +11,9 @@ github.com/atomix/api v0.0.0-20200202100958-13b24edbe32d/go.mod h1:Ec7OEwfv1qGAS
 github.com/atomix/api v0.0.0-20200206050905-3494e48c0084/go.mod h1:yD3KAX7yCeVhVjM2CD/5AXe9NW4yO6+siRQ5nfY+M1s=
 github.com/atomix/api v0.0.0-20200206211058-f075fb5b6d1b h1:DwaZyYMUCs4fJ1i+8eQQ9Jl3gbCk753zP4lT3wH23to=
 github.com/atomix/api v0.0.0-20200206211058-f075fb5b6d1b/go.mod h1:yD3KAX7yCeVhVjM2CD/5AXe9NW4yO6+siRQ5nfY+M1s=
+github.com/atomix/api v0.0.0-20200207212403-a55e2fa6e823 h1:zQtU+9/OhnwX1EOxroBYxQE4Fge7wR4Bxir7w4FtUM8=
 github.com/atomix/api v0.0.0-20200207212403-a55e2fa6e823/go.mod h1:N+Jv8qV9klP+/RDAVxRbPdluB0cm1ZjKLDjd40/Ccv4=
+github.com/atomix/api v0.0.0-20200211005812-591fe8b07ea8/go.mod h1:N+Jv8qV9klP+/RDAVxRbPdluB0cm1ZjKLDjd40/Ccv4=
 github.com/atomix/atomix-api v0.0.0-20190826211343-dd8f4db3bf77/go.mod h1:joWKUd0zIeYbAQ0vmYHGsnV03ZgRalhceHgnJ3EN0mI=
 github.com/atomix/atomix-api v0.0.0-20191002225141-1ee9c98c7dfd/go.mod h1:joWKUd0zIeYbAQ0vmYHGsnV03ZgRalhceHgnJ3EN0mI=
 github.com/atomix/atomix-api v0.0.0-20191005223910-aa620357faa0/go.mod h1:joWKUd0zIeYbAQ0vmYHGsnV03ZgRalhceHgnJ3EN0mI=
@@ -75,6 +77,7 @@ github.com/atomix/go-framework v0.0.0-20200207202010-51e205d726d2/go.mod h1:Q/0V
 github.com/atomix/go-framework v0.0.0-20200207214715-0cee98c57cdd/go.mod h1:/KVF8Ab99yMqnkELF2LIwCTR9FO+KI5MW8trOfjIYSA=
 github.com/atomix/go-framework v0.0.0-20200207221520-22c489aae8a8 h1:2zy/rshKp9SLFaGYI5Es7Jn3UL/KC5R6Lv/BXKV/Y84=
 github.com/atomix/go-framework v0.0.0-20200207221520-22c489aae8a8/go.mod h1:6GSJBtov4jxdchUC2sbfNd4PeYZTjlzlr++Ir7bKA9A=
+github.com/atomix/go-framework v0.0.0-20200211010411-ae512dcee9ad/go.mod h1:cAfmWGrf5gLmELevIVzUN73vQJiQt38tZ2D6aZaZm8U=
 github.com/atomix/go-local v0.0.0-20200124003802-357f6682b2f4 h1:acDXXOuqzbqfOYDTMvz4dhckHfmH0DMfXSQE+gLFGOA=
 github.com/atomix/go-local v0.0.0-20200124003802-357f6682b2f4/go.mod h1:MabPkX/j2bN399GVAYGigyvDaAslu7omZoujEfzdKDg=
 github.com/atomix/go-local v0.0.0-20200202105028-743d224c66eb h1:MCstZMd7aizXswJ69hf3fzYU3StG4Ge/vHEfp3mS518=
@@ -87,7 +90,10 @@ github.com/atomix/go-local v0.0.0-20200206221051-b1b85e86b0b7 h1:r7hBq6HSSUMXhsI
 github.com/atomix/go-local v0.0.0-20200206221051-b1b85e86b0b7/go.mod h1:FdvYwF2sobJJ8TAWHzNtn/5ppZX248hWh3jd/ZlZsMY=
 github.com/atomix/go-local v0.0.0-20200207202057-4a81cbdd3325 h1:TAnk36LvpuXDYp9qxEt3PJR4NlFUYgUPVTB+IYj2YKM=
 github.com/atomix/go-local v0.0.0-20200207202057-4a81cbdd3325/go.mod h1:n2xWQV3vAxEHcod1K82zOHlx/+iW9gbuu/zYzo5y060=
+github.com/atomix/go-local v0.0.0-20200207214727-4a5d923aa934 h1:/H7YGguN+Qtww7HkMWGtj3/3ayXRioVeURwvDpJQ8lw=
 github.com/atomix/go-local v0.0.0-20200207214727-4a5d923aa934/go.mod h1:qGUGef763ZEO4mcEJi7Bn2S7U/amLUWQp9RsAd+EtcQ=
+github.com/atomix/go-local v0.0.0-20200211010611-c99e53e4c653 h1:IF6ndryG9FwBOB0Dq4VK64ez3T/ActGS7Hu7luA+Yc4=
+github.com/atomix/go-local v0.0.0-20200211010611-c99e53e4c653/go.mod h1:N3oigYZ/g2RRAHIBw/xk4GkBj6Dk0zDG/1VL52aSodk=
 github.com/cenkalti/backoff v2.2.1+incompatible h1:tNowT99t7UNflLxfYYSlKYsBpXdEet03Pg2g16Swow4=
 github.com/cenkalti/backoff v2.2.1+incompatible/go.mod h1:90ReRw6GdpyfrHakVjL/QHaoyV4aDUVVkXQJJJ3NXXM=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
@@ -258,6 +264,7 @@ google.golang.org/grpc v1.23.0/go.mod h1:Y5yQAOtifL1yxbo5wqy6BxZv8vAUGQwXBOALyac
 google.golang.org/grpc v1.23.1/go.mod h1:Y5yQAOtifL1yxbo5wqy6BxZv8vAUGQwXBOALyacEbxg=
 google.golang.org/grpc v1.26.0 h1:2dTRdpdFEEhJYQD8EMLB61nnrzSCTbG38PhqdhvOltg=
 google.golang.org/grpc v1.26.0/go.mod h1:qbnxyOmOxrQa7FizSgH+ReBfzJrCY1pSN7KXBS8abTk=
+google.golang.org/grpc v1.27.0 h1:rRYRFMVgRv6E0D70Skyfsr28tDXIuuPZyWGMPdMcnXg=
 google.golang.org/grpc v1.27.0/go.mod h1:qbnxyOmOxrQa7FizSgH+ReBfzJrCY1pSN7KXBS8abTk=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
