@@ -1,0 +1,20 @@
+apiVersion: storage.cloud.atomix.io/v1beta2
+kind: CacheStorage
+metadata:
+  name: default-cache
+spec: {}
+---
+apiVersion: cloud.atomix.io/v1beta2
+kind: Database
+metadata:
+  name: cache-db
+spec:
+  clusters: 3
+  template:
+    spec:
+      partitions: 10
+      storage:
+        group: storage.cloud.atomix.io
+        version: v1beta2
+        kind: CacheStorage
+        name: default-cache
