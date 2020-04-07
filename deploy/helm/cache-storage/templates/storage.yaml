@@ -5,5 +5,5 @@ metadata:
     labels:
         app: {{ .Release.Name }}
 spec:
-    image: {{.Values.image.repository}}:{{.Values.image.tag}}
+    image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
     pullPolicy: {{ .Values.image.pullPolicy }}

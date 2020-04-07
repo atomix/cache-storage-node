@@ -16,6 +16,7 @@ package test
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/atomix/kubernetes-controller/pkg/apis/cloud/v1beta2"
 	"github.com/atomix/local-replica/pkg/apis/storage/v1beta1"
@@ -60,7 +61,20 @@ func (r *Reconciler) addDeployment(cluster *v1beta2.Cluster, storage *v1beta1.Ca
 	log.Info("Creating Deployment", "Name", cluster.Name, "Namespace", cluster.Namespace)
 	var replicas int32
 	replicas = 1
-	log.Info(storage.Spec.Image, ":", storage.Spec.ImagePullPolicy)
+	var env []corev1.EnvVar
+	env = append(env, corev1.EnvVar{
+		Name: "NODE_ID",
+		ValueFrom: &corev1.EnvVarSource{
+			FieldRef: &corev1.ObjectFieldSelector{
+				FieldPath: "metadata.name",
+			},
+		},
+	})
+	args := []string{
+		"$(NODE_ID)",
+		fmt.Sprintf("%s/%s", configPath, clusterConfigFile),
+		fmt.Sprintf("%s/%s", configPath, protocolConfigFile),
+	}
 	dep := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Namespace: cluster.Namespace,
@@ -84,6 +98,8 @@ func (r *Reconciler) addDeployment(cluster *v1beta2.Cluster, storage *v1beta1.Ca
 							Name:            storage.Name,
 							Image:           storage.Spec.Image,
 							ImagePullPolicy: storage.Spec.ImagePullPolicy,
+							Args:            args,
+							Env:             env,
 						},
 					},
 				},

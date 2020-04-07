@@ -22,3 +22,10 @@ spec:
           properties:
             spec:
               type: object
+              properties:
+                image:
+                  type: string
+                pullPolicy:
+                  type: string
+
+

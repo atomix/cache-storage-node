@@ -2,7 +2,9 @@ apiVersion: storage.cloud.atomix.io/v1beta1
 kind: CacheStorage
 metadata:
   name: default-cache
-spec: {}
+spec:
+  image: atomix/cache-storage:latest
+  pullPolicy: IfNotPresent
 ---
 apiVersion: cloud.atomix.io/v1beta2
 kind: Database
@@ -15,6 +17,6 @@ spec:
       partitions: 10
       storage:
         group: storage.cloud.atomix.io
-        version: v1beta2
+        version: v1beta1
         kind: CacheStorage
         name: default-cache
