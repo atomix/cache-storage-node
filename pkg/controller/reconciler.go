@@ -16,11 +16,7 @@ package test
 
 import (
 	"context"
-	"errors"
-	"fmt"
-	"strconv"
 
-	api "github.com/atomix/api/proto/atomix/controller"
 	"github.com/atomix/kubernetes-controller/pkg/apis/cloud/v1beta2"
 	"github.com/atomix/kubernetes-controller/pkg/controller/v1beta2/storage"
 	"github.com/atomix/kubernetes-controller/pkg/controller/v1beta2/util/k8s"
@@ -44,7 +40,9 @@ const (
 	dataPath           = "/var/lib/atomix"
 )
 
-const port = 5678
+const (
+	configVolume = "config"
+)
 
 var log = logf.Log.WithName("controller_test")
 
@@ -204,49 +202,4 @@ func (r *Reconciler) reconcileStatus(cluster *v1beta2.Cluster, storage *v1beta1.
 		return r.client.Status().Update(context.TODO(), cluster)
 	}
 	return nil
-}
-
-// newNodeConfigString creates a node configuration string for the given cluster
-func newClusterConfig(cluster *v1beta2.Cluster) (*api.ClusterConfig, error) {
-	database := cluster.Annotations["cloud.atomix.io/database"]
-
-	clusterIDstr, ok := cluster.Annotations["cloud.atomix.io/cluster"]
-	if !ok {
-		return nil, errors.New("missing cluster annotation")
-	}
-
-	id, err := strconv.ParseInt(clusterIDstr, 0, 32)
-	if err != nil {
-		return nil, err
-	}
-	clusterID := int32(id)
-
-	members := []*api.MemberConfig{
-		{
-			ID:           cluster.Name,
-			Host:         fmt.Sprintf("%s.%s.svc.cluster.local", cluster.Namespace, cluster.Name),
-			ProtocolPort: port,
-			APIPort:      port,
-		},
-	}
-
-	partitions := make([]*api.PartitionId, 0, cluster.Spec.Partitions)
-	for partitionID := (cluster.Spec.Partitions * (clusterID - 1)) + 1; partitionID <= cluster.Spec.Partitions*clusterID; partitionID++ {
-		partition := &api.PartitionId{
-			Partition: partitionID,
-			Cluster: &api.ClusterId{
-				ID: int32(clusterID),
-				DatabaseID: &api.DatabaseId{
-					Name:      database,
-					Namespace: cluster.Namespace,
-				},
-			},
-		}
-		partitions = append(partitions, partition)
-	}
-
-	return &api.ClusterConfig{
-		Members:    members,
-		Partitions: partitions,
-	}, nil
 }

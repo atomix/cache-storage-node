@@ -16,8 +16,11 @@ package test
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"strconv"
 
+	api "github.com/atomix/api/proto/atomix/controller"
 	"github.com/atomix/kubernetes-controller/pkg/apis/cloud/v1beta2"
 	"github.com/atomix/local-replica/pkg/apis/storage/v1beta1"
 	"github.com/golang/protobuf/jsonpb"
@@ -29,6 +32,15 @@ import (
 
 const (
 	apiPort = 5678
+)
+
+const (
+	appKey       = "app"
+	atomixApp    = "atomix"
+	typeKey      = "type"
+	databaseKey  = "database"
+	clusterKey   = "cluster"
+	partitionKey = "partition"
 )
 
 func (r *Reconciler) addService(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
@@ -49,6 +61,7 @@ func (r *Reconciler) addService(cluster *v1beta2.Cluster, storage *v1beta1.Cache
 			},
 			PublishNotReadyAddresses: true,
 			ClusterIP:                "None",
+			Selector:                 cluster.Labels,
 		},
 	}
 	if err := controllerutil.SetControllerReference(cluster, service, r.scheme); err != nil {
@@ -75,6 +88,15 @@ func (r *Reconciler) addDeployment(cluster *v1beta2.Cluster, storage *v1beta1.Ca
 		fmt.Sprintf("%s/%s", configPath, clusterConfigFile),
 		fmt.Sprintf("%s/%s", configPath, protocolConfigFile),
 	}
+
+	volumes := []corev1.Volume{
+		newConfigVolume(cluster),
+	}
+
+	volumeMounts := []corev1.VolumeMount{
+		newConfigVolumeMount(),
+	}
+
 	dep := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Namespace: cluster.Namespace,
@@ -100,8 +122,10 @@ func (r *Reconciler) addDeployment(cluster *v1beta2.Cluster, storage *v1beta1.Ca
 							ImagePullPolicy: storage.Spec.ImagePullPolicy,
 							Args:            args,
 							Env:             env,
+							VolumeMounts:    volumeMounts,
 						},
 					},
+					Volumes: volumes,
 				},
 			},
 		},
@@ -140,4 +164,71 @@ func (r *Reconciler) addConfigMap(cluster *v1beta2.Cluster, storage *v1beta1.Cac
 		return err
 	}
 	return r.client.Create(context.TODO(), cm)
+}
+
+// newNodeConfigString creates a node configuration string for the given cluster
+func newClusterConfig(cluster *v1beta2.Cluster) (*api.ClusterConfig, error) {
+	database := cluster.Annotations["cloud.atomix.io/database"]
+
+	clusterIDstr, ok := cluster.Annotations["cloud.atomix.io/cluster"]
+	if !ok {
+		return nil, errors.New("missing cluster annotation")
+	}
+
+	id, err := strconv.ParseInt(clusterIDstr, 0, 32)
+	if err != nil {
+		return nil, err
+	}
+	clusterID := int32(id)
+
+	members := []*api.MemberConfig{
+		{
+			ID:           cluster.Name,
+			Host:         fmt.Sprintf("%s.%s.svc.cluster.local", cluster.Name, cluster.Namespace),
+			ProtocolPort: apiPort,
+			APIPort:      apiPort,
+		},
+	}
+
+	partitions := make([]*api.PartitionId, 0, cluster.Spec.Partitions)
+	for partitionID := (cluster.Spec.Partitions * (clusterID - 1)) + 1; partitionID <= cluster.Spec.Partitions*clusterID; partitionID++ {
+		partition := &api.PartitionId{
+			Partition: partitionID,
+			Cluster: &api.ClusterId{
+				ID: int32(clusterID),
+				DatabaseID: &api.DatabaseId{
+					Name:      database,
+					Namespace: cluster.Namespace,
+				},
+			},
+		}
+		partitions = append(partitions, partition)
+	}
+
+	return &api.ClusterConfig{
+		Members:    members,
+		Partitions: partitions,
+	}, nil
+}
+
+// newConfigVolumeMount returns a configuration volume mount for a pod
+func newConfigVolumeMount() corev1.VolumeMount {
+	return corev1.VolumeMount{
+		Name:      configVolume,
+		MountPath: configPath,
+	}
+}
+
+// newConfigVolume returns the configuration volume for a pod
+func newConfigVolume(cluster *v1beta2.Cluster) corev1.Volume {
+	return corev1.Volume{
+		Name: configVolume,
+		VolumeSource: corev1.VolumeSource{
+			ConfigMap: &corev1.ConfigMapVolumeSource{
+				LocalObjectReference: corev1.LocalObjectReference{
+					Name: cluster.Name,
+				},
+			},
+		},
+	}
 }
