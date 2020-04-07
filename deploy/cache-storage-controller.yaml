@@ -29,7 +29,7 @@ metadata:
   name: cache
 spec:
   group: storage.cloud.atomix.io
-  version: v1beta1
+  version: v1beta2
   kind: CacheStorage
 ---
 apiVersion: rbac.authorization.k8s.io/v1

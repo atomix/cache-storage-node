@@ -15,6 +15,7 @@
 package v1beta1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -24,7 +25,11 @@ const CacheStorageKind = "CacheStorage"
 
 // CacheStorageSpec is the k8s spec for a CacheStorage resource
 type CacheStorageSpec struct {
-	Replicas int32 `json:"replicas,omitempty"`
+	// Image is the image to run
+	Image string `json:"image,omitempty"`
+
+	// ImagePullPolicy is the pull policy to apply
+	ImagePullPolicy corev1.PullPolicy `json:"pullPolicy,omitempty"`
 }
 
 // CacheStorageStatus defines the observed state of CacheStorage

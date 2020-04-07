@@ -18,25 +18,23 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
+
 	api "github.com/atomix/api/proto/atomix/controller"
 	"github.com/atomix/kubernetes-controller/pkg/apis/cloud/v1beta2"
 	"github.com/atomix/kubernetes-controller/pkg/controller/v1beta2/storage"
 	"github.com/atomix/kubernetes-controller/pkg/controller/v1beta2/util/k8s"
 	"github.com/atomix/local-replica/pkg/apis/storage/v1beta1"
-	"github.com/gogo/protobuf/jsonpb"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	k8serrors "k8s.io/apimachinery/pkg/api/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	logf "sigs.k8s.io/controller-runtime/pkg/runtime/log"
-	"strconv"
 )
 
 const (
@@ -53,6 +51,7 @@ var log = logf.Log.WithName("controller_test")
 // Add creates a new Partition ManagementGroup and adds it to the Manager. The Manager will set fields on the ManagementGroup
 // and Start it when the Manager is Started.
 func Add(mgr manager.Manager) error {
+	log.Info("Add manager")
 	reconciler := &Reconciler{
 		client: mgr.GetClient(),
 		scheme: mgr.GetScheme(),
@@ -76,6 +75,7 @@ type Reconciler struct {
 // Reconcile reads that state of the cluster for a Cluster object and makes changes based on the state read
 // and what is in the Cluster.Spec
 func (r *Reconciler) Reconcile(request reconcile.Request) (reconcile.Result, error) {
+	log.Info("Reconcile Cluster")
 	cluster := &v1beta2.Cluster{}
 	err := r.client.Get(context.TODO(), request.NamespacedName, cluster)
 	if err != nil {
@@ -121,6 +121,7 @@ func (r *Reconciler) Reconcile(request reconcile.Request) (reconcile.Result, err
 }
 
 func (r *Reconciler) reconcileConfigMap(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
+	log.Info("Reconcile cache storage config map")
 	cm := &corev1.ConfigMap{}
 	name := types.NamespacedName{
 		Namespace: cluster.Namespace,
@@ -133,36 +134,8 @@ func (r *Reconciler) reconcileConfigMap(cluster *v1beta2.Cluster, storage *v1bet
 	return err
 }
 
-func (r *Reconciler) addConfigMap(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
-	log.Info("Creating ConfigMap", "Name", cluster.Name, "Namespace", cluster.Namespace)
-
-	config, err := newClusterConfig(cluster)
-	if err != nil {
-		return err
-	}
-
-	marshaller := jsonpb.Marshaler{}
-	data, err := marshaller.MarshalToString(config)
-	if err != nil {
-		return err
-	}
-
-	cm := &corev1.ConfigMap{
-		ObjectMeta: metav1.ObjectMeta{
-			Namespace: cluster.Namespace,
-			Name:      cluster.Name,
-		},
-		Data: map[string]string{
-			clusterConfigFile: data,
-		},
-	}
-	if err := controllerutil.SetControllerReference(cluster, cm, r.scheme); err != nil {
-		return err
-	}
-	return r.client.Create(context.TODO(), cm)
-}
-
 func (r *Reconciler) reconcileDeployment(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
+	log.Info("Reconcile cache storage deployment")
 	dep := &appsv1.Deployment{}
 	name := types.NamespacedName{
 		Namespace: cluster.Namespace,
@@ -175,21 +148,8 @@ func (r *Reconciler) reconcileDeployment(cluster *v1beta2.Cluster, storage *v1be
 	return err
 }
 
-func (r *Reconciler) addDeployment(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
-	log.Info("Creating Deployment", "Name", cluster.Name, "Namespace", cluster.Namespace)
-	dep := &appsv1.Deployment{
-		ObjectMeta: metav1.ObjectMeta{
-			Namespace: cluster.Namespace,
-			Name:      cluster.Name,
-		},
-	}
-	if err := controllerutil.SetControllerReference(cluster, dep, r.scheme); err != nil {
-		return err
-	}
-	return r.client.Create(context.TODO(), dep)
-}
-
 func (r *Reconciler) reconcileService(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
+	log.Info("Reconcile cache storage service")
 	service := &corev1.Service{}
 	name := types.NamespacedName{
 		Namespace: cluster.Namespace,
@@ -200,20 +160,6 @@ func (r *Reconciler) reconcileService(cluster *v1beta2.Cluster, storage *v1beta1
 		err = r.addService(cluster, storage)
 	}
 	return err
-}
-
-func (r *Reconciler) addService(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
-	log.Info("Creating service", "Name", cluster.Name, "Namespace", cluster.Namespace)
-	service := &corev1.Service{
-		ObjectMeta: metav1.ObjectMeta{
-			Namespace: cluster.Namespace,
-			Name:      cluster.Name,
-		},
-	}
-	if err := controllerutil.SetControllerReference(cluster, service, r.scheme); err != nil {
-		return err
-	}
-	return r.client.Create(context.TODO(), service)
 }
 
 func (r *Reconciler) reconcileStatus(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {

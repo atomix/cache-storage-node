@@ -17,13 +17,15 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/atomix/kubernetes-controller/pkg/test"
+
+	controller "github.com/atomix/local-replica/pkg/controller"
+
 	"os"
 	"runtime"
 
-	"github.com/atomix/kubernetes-controller/pkg/apis"
 	"github.com/atomix/kubernetes-controller/pkg/controller/util/leader"
 	"github.com/atomix/kubernetes-controller/pkg/controller/util/ready"
+	"github.com/atomix/local-replica/pkg/apis"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
@@ -88,7 +90,7 @@ func main() {
 	}
 
 	// Setup the TestStorage controller
-	if err := test.Add(mgr); err != nil {
+	if err := controller.Add(mgr); err != nil {
 		log.Error(err, "")
 		os.Exit(1)
 	}
