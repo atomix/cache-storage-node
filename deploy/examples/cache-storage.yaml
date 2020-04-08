@@ -1,5 +1,5 @@
 apiVersion: storage.cloud.atomix.io/v1beta1
-kind: CacheStorage
+kind: CacheStorageClass
 metadata:
   name: default-cache
 spec:

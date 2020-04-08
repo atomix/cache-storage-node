@@ -24,7 +24,7 @@ spec:
                       - containerPort: 5679
                         name: control
                   command:
-                      - cache-controller
+                      - cache-storage-controller
                   imagePullPolicy: {{ .Values.image.pullPolicy }}
                   readinessProbe:
                       exec:

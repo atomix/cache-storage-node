@@ -1,9 +1,9 @@
 apiVersion: storage.cloud.atomix.io/v1beta1
-kind: CacheStorage
+kind: CacheStorageClass
 metadata:
     name: {{ .Release.Name }}
     labels:
         app: {{ .Release.Name }}
 spec:
     image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-    pullPolicy: {{ .Values.image.pullPolicy }}
+    imagePullPolicy: {{ .Values.image.pullPolicy }}

@@ -44,9 +44,9 @@ func Add(mgr manager.Manager) error {
 		scheme: mgr.GetScheme(),
 	}
 	gvk := schema.GroupVersionKind{
-		Group:   v1beta1.CacheStorageGroup,
-		Version: v1beta1.CacheStorageVersion,
-		Kind:    v1beta1.CacheStorageKind,
+		Group:   v1beta1.CacheStorageClassGroup,
+		Version: v1beta1.CacheStorageClassVersion,
+		Kind:    v1beta1.CacheStorageClassKind,
 	}
 	return storage.AddClusterReconciler(mgr, reconciler, gvk)
 }
@@ -72,7 +72,7 @@ func (r *Reconciler) Reconcile(request reconcile.Request) (reconcile.Result, err
 		return reconcile.Result{Requeue: true}, err
 	}
 
-	storage := &v1beta1.CacheStorage{}
+	storage := &v1beta1.CacheStorageClass{}
 	name := types.NamespacedName{
 		Namespace: cluster.Spec.Storage.Namespace,
 		Name:      cluster.Spec.Storage.Name,
@@ -107,7 +107,7 @@ func (r *Reconciler) Reconcile(request reconcile.Request) (reconcile.Result, err
 	return reconcile.Result{}, nil
 }
 
-func (r *Reconciler) reconcileConfigMap(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
+func (r *Reconciler) reconcileConfigMap(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorageClass) error {
 	log.Info("Reconcile cache storage config map")
 	cm := &corev1.ConfigMap{}
 	name := types.NamespacedName{
@@ -121,7 +121,7 @@ func (r *Reconciler) reconcileConfigMap(cluster *v1beta2.Cluster, storage *v1bet
 	return err
 }
 
-func (r *Reconciler) reconcileDeployment(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
+func (r *Reconciler) reconcileDeployment(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorageClass) error {
 	log.Info("Reconcile cache storage deployment")
 	dep := &appsv1.Deployment{}
 	name := types.NamespacedName{
@@ -135,7 +135,7 @@ func (r *Reconciler) reconcileDeployment(cluster *v1beta2.Cluster, storage *v1be
 	return err
 }
 
-func (r *Reconciler) reconcileService(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
+func (r *Reconciler) reconcileService(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorageClass) error {
 	log.Info("Reconcile cache storage service")
 	service := &corev1.Service{}
 	name := types.NamespacedName{
@@ -149,7 +149,7 @@ func (r *Reconciler) reconcileService(cluster *v1beta2.Cluster, storage *v1beta1
 	return err
 }
 
-func (r *Reconciler) reconcileStatus(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
+func (r *Reconciler) reconcileStatus(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorageClass) error {
 	dep := &appsv1.Deployment{}
 	name := types.NamespacedName{
 		Namespace: cluster.Namespace,

@@ -19,56 +19,56 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// CacheStorageGroup cache storage group
-const CacheStorageGroup = "storage.cloud.atomix.io"
+// CacheStorageClassGroup cache storage class group
+const CacheStorageClassGroup = "storage.cloud.atomix.io"
 
-// CacheStorageVersion cache storage version
-const CacheStorageVersion = "v1beta1"
+// CacheStorageClassVersion cache storage class version
+const CacheStorageClassVersion = "v1beta1"
 
-// CacheStorageKind cache storage kind
-const CacheStorageKind = "CacheStorage"
+// CacheStorageClassKind cache storage class kind
+const CacheStorageClassKind = "CacheStorageClass"
 
-// CacheStorageSpec is the k8s spec for a CacheStorage resource
-type CacheStorageSpec struct {
+// CacheStorageClassSpec is the k8s spec for a CacheStorage resource
+type CacheStorageClassSpec struct {
 	// Image is the image to run
 	Image string `json:"image,omitempty"`
 
 	// ImagePullPolicy is the pull policy to apply
-	ImagePullPolicy corev1.PullPolicy `json:"pullPolicy,omitempty"`
+	ImagePullPolicy corev1.PullPolicy `json:"imagePullPolicy,omitempty"`
 }
 
-// CacheStorageStatus defines the observed state of CacheStorage
-type CacheStorageStatus struct {
+// CacheStorageClassStatus defines the observed state of CacheStorage
+type CacheStorageClassStatus struct {
 	Ready bool `json:"ready,omitempty"`
 }
 
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// CacheStorage is the Schema for the CacheStorage API
+// CacheStorageClass is the Schema for the CacheStorage API
 // +k8s:openapi-gen=true
-type CacheStorage struct {
+type CacheStorageClass struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	// Spec is the CacheStorage specification
-	Spec CacheStorageSpec `json:"spec,omitempty"`
+	Spec CacheStorageClassSpec `json:"spec,omitempty"`
 
 	// Status if the current status of the CacheStorage
-	Status CacheStorageStatus `json:"status,omitempty"`
+	Status CacheStorageClassStatus `json:"status,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// CacheStorageList contains a list of CacheStorage
-type CacheStorageList struct {
+// CacheStorageClassList contains a list of CacheStorage
+type CacheStorageClassList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 
 	// Items is the set of items in the list
-	Items []CacheStorage `json:"items"`
+	Items []CacheStorageClass `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&CacheStorage{}, &CacheStorageList{})
+	SchemeBuilder.Register(&CacheStorageClass{}, &CacheStorageClassList{})
 }

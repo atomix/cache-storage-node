@@ -10,6 +10,6 @@ spec:
             storage:
                 group: storage.cloud.atomix.io
                 version: v1beta1
-                kind: CacheStorage
+                kind: CacheStorageClass
                 name: {{ .Release.Name }}
                 namespace: {{  .Release.Namespace }}

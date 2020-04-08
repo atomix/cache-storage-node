@@ -15,7 +15,6 @@
 package test
 
 const (
-	dataVolume   = "data"
 	configVolume = "config"
 )
 
@@ -27,5 +26,4 @@ const (
 	configPath         = "/etc/atomix"
 	clusterConfigFile  = "cluster.json"
 	protocolConfigFile = "protocol.json"
-	dataPath           = "/var/lib/atomix"
 )
