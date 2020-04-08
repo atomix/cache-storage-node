@@ -22,7 +22,7 @@ test: build license_check linters
 	go test github.com/atomix/cache-storage/...
 
 linters: # @HELP examines Go source code and reports coding problems
-	golangci-lint run
+	GOGC=75  golangci-lint run
 
 license_check: # @HELP examine and ensure license headers exist
 	./build/licensing/boilerplate.py -v
