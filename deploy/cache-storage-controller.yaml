@@ -25,8 +25,9 @@ spec:
               properties:
                 image:
                   type: string
-                pullPolicy:
+                imagePullPolicy:
                   type: string
+
 
 ---
 apiVersion: cloud.atomix.io/v1beta2
