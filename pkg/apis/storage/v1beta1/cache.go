@@ -19,8 +19,13 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// CacheStorageGroup cache storage group
 const CacheStorageGroup = "storage.cloud.atomix.io"
+
+// CacheStorageVersion cache storage version
 const CacheStorageVersion = "v1beta1"
+
+// CacheStorageKind cache storage kind
 const CacheStorageKind = "CacheStorage"
 
 // CacheStorageSpec is the k8s spec for a CacheStorage resource

@@ -8,7 +8,7 @@ ATOMIX_CACHE_STORAGE_VERSION := latest
 all: build
 
 build: # @HELP build the source code
-build:
+build: license_check linters
 	GOOS=linux GOARCH=amd64 go build -o build/cache-storage/_output/cache-storage ./cmd/cache-storage
 	GOOS=linux GOARCH=amd64 go build -o build/cache-controller/_output/cache-controller ./cmd/cache-controller
 

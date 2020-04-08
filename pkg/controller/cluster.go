@@ -30,19 +30,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
 
-const (
-	apiPort = 5678
-)
-
-const (
-	appKey       = "app"
-	atomixApp    = "atomix"
-	typeKey      = "type"
-	databaseKey  = "database"
-	clusterKey   = "cluster"
-	partitionKey = "partition"
-)
-
 func (r *Reconciler) addService(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
 	log.Info("Creating service", "Name:", cluster.Name, "Namespace:", cluster.Namespace)
 	service := &corev1.Service{
@@ -72,8 +59,7 @@ func (r *Reconciler) addService(cluster *v1beta2.Cluster, storage *v1beta1.Cache
 
 func (r *Reconciler) addDeployment(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
 	log.Info("Creating Deployment", "Name", cluster.Name, "Namespace", cluster.Namespace)
-	var replicas int32
-	replicas = 1
+	var replicas int32 = 1
 	var env []corev1.EnvVar
 	env = append(env, corev1.EnvVar{
 		Name: "NODE_ID",
@@ -91,10 +77,12 @@ func (r *Reconciler) addDeployment(cluster *v1beta2.Cluster, storage *v1beta1.Ca
 
 	volumes := []corev1.Volume{
 		newConfigVolume(cluster),
+		newDataVolume(),
 	}
 
 	volumeMounts := []corev1.VolumeMount{
 		newConfigVolumeMount(),
+		newDataVolumeMount(),
 	}
 
 	dep := &appsv1.Deployment{
@@ -229,6 +217,24 @@ func newConfigVolume(cluster *v1beta2.Cluster) corev1.Volume {
 					Name: cluster.Name,
 				},
 			},
+		},
+	}
+}
+
+// newDataVolumeMount returns a data volume mount for a pod
+func newDataVolumeMount() corev1.VolumeMount {
+	return corev1.VolumeMount{
+		Name:      dataVolume,
+		MountPath: dataPath,
+	}
+}
+
+// newDataVolume returns the data volume for a pod
+func newDataVolume() corev1.Volume {
+	return corev1.Volume{
+		Name: dataVolume,
+		VolumeSource: corev1.VolumeSource{
+			EmptyDir: &corev1.EmptyDirVolumeSource{},
 		},
 	}
 }

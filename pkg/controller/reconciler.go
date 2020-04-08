@@ -33,17 +33,6 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 )
 
-const (
-	configPath         = "/etc/atomix"
-	clusterConfigFile  = "cluster.json"
-	protocolConfigFile = "protocol.json"
-	dataPath           = "/var/lib/atomix"
-)
-
-const (
-	configVolume = "config"
-)
-
 var log = logf.Log.WithName("controller_test")
 
 // Add creates a new Partition ManagementGroup and adds it to the Manager. The Manager will set fields on the ManagementGroup
