@@ -6,7 +6,7 @@ require (
 	github.com/atomix/api v0.0.0-20200211005812-591fe8b07ea8
 	github.com/atomix/go-framework v0.0.0-20200326224656-5401b72ffe96
 	github.com/atomix/go-local v0.0.0-20200326224828-5a1943478559
-	github.com/atomix/kubernetes-controller v0.0.0-20200406050343-092c9b9afb2d
+	github.com/atomix/kubernetes-controller v0.2.0-beta.1
 	github.com/gogo/protobuf v1.3.1
 	github.com/golang/protobuf v1.3.2
 	github.com/sirupsen/logrus v1.4.2
