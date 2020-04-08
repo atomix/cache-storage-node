@@ -36,14 +36,14 @@ metadata:
   name: cache
 spec:
   group: storage.cloud.atomix.io
-  version: v1beta2
-  kind: CacheStorage
+  version: v1beta1
+  kind: CacheStorageClass
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   creationTimestamp: null
-  name: cache-controller
+  name: cache-storage-controller
 rules:
   - apiGroups:
       - ""
@@ -85,49 +85,49 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: cache-controller
+  name: cache-storage-controller
 subjects:
   - kind: ServiceAccount
-    name: cache-controller
+    name: cache-storage-controller
     namespace: kube-system
 roleRef:
   kind: ClusterRole
-  name: cache-controller
+  name: cache-storage-controller
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: cache-controller
+  name: cache-storage-controller
   namespace: kube-system
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cache-controller
+  name: cache-storage-controller
   namespace: kube-system
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: cache-controller
+      name: cache-storage-controller
   template:
     metadata:
       labels:
-        name: cache-controller
+        name: cache-storage-controller
     spec:
-      serviceAccountName: cache-controller
+      serviceAccountName: cache-storage-controller
       containers:
-        - name: cache-controller
+        - name: cache-storage-controller
           # Replace this with the built image name
-          image: atomix/cache-controller:latest
+          image: atomix/cache-storage-controller:latest
           ports:
             - containerPort: 60000
               name: metrics
             - containerPort: 5679
               name: control
           command:
-            - cache-controller
+            - cache-storage-controller
           imagePullPolicy: IfNotPresent
           readinessProbe:
             exec:
@@ -139,7 +139,7 @@ spec:
             failureThreshold: 1
           env:
             - name: CONTROLLER_NAME
-              value: "cache-controller"
+              value: "cache-storage-controller"
             - name: CONTROLLER_NAMESPACE
               valueFrom:
                 fieldRef:

@@ -1,10 +1,12 @@
 apiVersion: storage.cloud.atomix.io/v1beta1
 kind: CacheStorageClass
 metadata:
-  name: default-cache
+    name: default-cache
+    labels:
+      app: default-cache
 spec:
   image: atomix/cache-storage:latest
-  pullPolicy: IfNotPresent
+  imagePullPolicy: IfNotPresent
 ---
 apiVersion: cloud.atomix.io/v1beta2
 kind: Database
@@ -20,3 +22,4 @@ spec:
         version: v1beta1
         kind: CacheStorageClass
         name: default-cache
+        namespace: kube-system
