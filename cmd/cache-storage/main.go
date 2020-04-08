@@ -17,15 +17,16 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
+	"net"
+	"os"
+	"os/signal"
+
 	"github.com/atomix/api/proto/atomix/controller"
 	"github.com/atomix/go-framework/pkg/atomix/registry"
 	"github.com/atomix/go-local/pkg/atomix/local"
 	"github.com/gogo/protobuf/jsonpb"
 	log "github.com/sirupsen/logrus"
-	"io/ioutil"
-	"net"
-	"os"
-	"os/signal"
 )
 
 func main() {
@@ -36,7 +37,8 @@ func main() {
 
 	// Start the node. The node will be started in its own goroutine.
 	member := clusterConfig.Members[0]
-	address := fmt.Sprintf("%s:%d", member.Host, member.APIPort)
+	log.Info(member.Host, ":", member.APIPort)
+	address := fmt.Sprintf(":%d", member.APIPort)
 	lis, err := net.Listen("tcp", address)
 	if err != nil {
 		fmt.Println(err)
