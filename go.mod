@@ -1,4 +1,4 @@
-module github.com/atomix/local-replica
+module github.com/atomix/cache-storage
 
 go 1.12
 

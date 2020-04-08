@@ -17,10 +17,10 @@ package test
 import (
 	"context"
 
+	"github.com/atomix/cache-storage/pkg/apis/storage/v1beta1"
 	"github.com/atomix/kubernetes-controller/pkg/apis/cloud/v1beta2"
 	"github.com/atomix/kubernetes-controller/pkg/controller/v1beta2/storage"
 	"github.com/atomix/kubernetes-controller/pkg/controller/v1beta2/util/k8s"
-	"github.com/atomix/local-replica/pkg/apis/storage/v1beta1"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	k8serrors "k8s.io/apimachinery/pkg/api/errors"

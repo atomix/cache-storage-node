@@ -14,7 +14,7 @@ build:
 
 test: # @HELP run the unit tests and source code validation
 test: build license_check linters
-	go test github.com/atomix/local-replica/...
+	go test github.com/atomix/cache-storage/...
 
 linters: # @HELP examines Go source code and reports coding problems
 	golangci-lint run

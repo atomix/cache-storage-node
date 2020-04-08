@@ -128,6 +128,7 @@ github.com/atomix/kubernetes-controller v0.0.0-20200406041612-7f1d9b511469 h1:6I
 github.com/atomix/kubernetes-controller v0.0.0-20200406041612-7f1d9b511469/go.mod h1:lWOxAfXoCF7O1Gu/ZAEYdg8QJAc3BFRyvyQQ5WsXy+E=
 github.com/atomix/kubernetes-controller v0.0.0-20200406050343-092c9b9afb2d h1:q1sbZxYd668G/9P5m4j/hb7RALfbqYd3JFtVCD3W8HY=
 github.com/atomix/kubernetes-controller v0.0.0-20200406050343-092c9b9afb2d/go.mod h1:lWOxAfXoCF7O1Gu/ZAEYdg8QJAc3BFRyvyQQ5WsXy+E=
+github.com/atomix/local-replica v0.0.0-20200326224926-bf524b2bf9ed h1:Fdk9L7fnCCzj/3tOmoH24O3iqMGo2BvRnVGw26NjQWE=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beorn7/perks v1.0.0 h1:HWo1m869IqiPhD389kmkxeTalrjNbbJTC8LXupb+sl0=
 github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+CedLV8=

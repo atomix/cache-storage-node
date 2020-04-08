@@ -18,14 +18,14 @@ import (
 	"context"
 	"fmt"
 
-	controller "github.com/atomix/local-replica/pkg/controller"
+	controller "github.com/atomix/cache-storage/pkg/controller"
 
 	"os"
 	"runtime"
 
+	"github.com/atomix/cache-storage/pkg/apis"
 	"github.com/atomix/kubernetes-controller/pkg/controller/util/leader"
 	"github.com/atomix/kubernetes-controller/pkg/controller/util/ready"
-	"github.com/atomix/local-replica/pkg/apis"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
