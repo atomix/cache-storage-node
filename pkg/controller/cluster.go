@@ -58,7 +58,7 @@ func (r *Reconciler) addService(cluster *v1beta2.Cluster, storage *v1beta1.Cache
 }
 
 func (r *Reconciler) addDeployment(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
-	log.Info("Creating Deployment", "Name", cluster.Name, "Namespace", cluster.Namespace)
+	log.Info("Creating Deployment", "Name:", cluster.Name, "Namespace:", cluster.Namespace)
 	var replicas int32 = 1
 	var env []corev1.EnvVar
 	env = append(env, corev1.EnvVar{
@@ -126,8 +126,7 @@ func (r *Reconciler) addDeployment(cluster *v1beta2.Cluster, storage *v1beta1.Ca
 }
 
 func (r *Reconciler) addConfigMap(cluster *v1beta2.Cluster, storage *v1beta1.CacheStorage) error {
-	log.Info("Creating ConfigMap", "Name", cluster.Name, "Namespace", cluster.Namespace)
-
+	log.Info("Creating ConfigMap", "Name:", cluster.Name, "Namespace:", cluster.Namespace)
 	config, err := newClusterConfig(cluster)
 	if err != nil {
 		return err
@@ -157,7 +156,6 @@ func (r *Reconciler) addConfigMap(cluster *v1beta2.Cluster, storage *v1beta1.Cac
 // newNodeConfigString creates a node configuration string for the given cluster
 func newClusterConfig(cluster *v1beta2.Cluster) (*api.ClusterConfig, error) {
 	database := cluster.Annotations["cloud.atomix.io/database"]
-
 	clusterIDstr, ok := cluster.Annotations["cloud.atomix.io/cluster"]
 	if !ok {
 		return nil, errors.New("missing cluster annotation")

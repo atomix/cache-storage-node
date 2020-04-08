@@ -22,6 +22,11 @@ spec:
           properties:
             spec:
               type: object
+              properties:
+                image:
+                  type: string
+                pullPolicy:
+                  type: string
 ---
 apiVersion: cloud.atomix.io/v1beta2
 kind: StorageController

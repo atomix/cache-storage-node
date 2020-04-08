@@ -28,9 +28,9 @@ import (
 	"github.com/atomix/kubernetes-controller/pkg/controller/util/ready"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/manager/signals"
-	logf "sigs.k8s.io/controller-runtime/pkg/runtime/log"
 )
 
 var log = logf.Log.WithName("cmd")
@@ -45,12 +45,6 @@ func main() {
 	if len(os.Args) > 1 {
 		namespace = os.Args[1]
 	}
-
-	// The logger instantiated here can be changed to any logger
-	// implementing the logr.Logger interface. This logger will
-	// be propagated through the whole operator, generating
-	// uniform and structured logs.
-	logf.SetLogger(logf.ZapLogger(false))
 
 	printVersion()
 

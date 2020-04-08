@@ -1,6 +1,6 @@
 module github.com/atomix/cache-storage
 
-go 1.12
+go 1.13
 
 require (
 	github.com/atomix/api v0.0.0-20200211005812-591fe8b07ea8
@@ -17,5 +17,3 @@ require (
 	k8s.io/client-go v0.17.2
 	sigs.k8s.io/controller-runtime v0.5.2
 )
-
-replace github.com/atomix/kubernetes-controller => ../kubernetes-controller
