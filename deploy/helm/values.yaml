@@ -2,7 +2,7 @@ clusters: 3
 partitions: 10
 
 image:
-  repository: atomix/cache-storage
+  repository: atomix/cache-storage-node
   tag: latest
   pullPolicy: IfNotPresent
   pullSecrets: []

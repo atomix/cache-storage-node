@@ -13,7 +13,7 @@ all: build
 
 build: # @HELP build the source code
 build: deps license_check linters
-	GOOS=linux GOARCH=amd64 go build -o build/cache-storage/_output/cache-storage ./cmd/cache-storage
+	GOOS=linux GOARCH=amd64 go build -o build/cache-storage-node/_output/cache-storage-node ./cmd/cache-storage-node
 
 deps: # @HELP ensure that the required dependencies are in place
 	go build -v ./...
@@ -30,9 +30,9 @@ linters: # @HELP examines Go source code and reports coding problems
 license_check: # @HELP examine and ensure license headers exist
 	./build/licensing/boilerplate.py -v
 
-images: # @HELP build cache-storage Docker image
+images: # @HELP build cache-storage-node Docker image
 images: build
-	docker build . -f build/cache-storage/Dockerfile -t atomix/cache-storage:${STORAGE_VERSION}
+	docker build . -f build/cache-storage-node/Dockerfile -t atomix/cache-storage-node:${STORAGE_VERSION}
 
-push: # @HELP push cache-storage Docker image
+push: # @HELP push cache-storage-node Docker image
 	docker push atomix/cache-storage:${STORAGE_VERSION}
