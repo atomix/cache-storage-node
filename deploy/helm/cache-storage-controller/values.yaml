@@ -1,5 +1,0 @@
-image:
-  repository: atomix/cache-storage-controller
-  tag: latest
-  pullPolicy: IfNotPresent
-  pullSecrets: []
