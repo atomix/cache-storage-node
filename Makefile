@@ -31,7 +31,7 @@ license_check: # @HELP examine and ensure license headers exist
 	./build/licensing/boilerplate.py -v
 
 images: # @HELP build cache-storage-node Docker image
-images: build
+image: build
 	docker build . -f build/cache-storage-node/Dockerfile -t atomix/cache-storage-node:${STORAGE_VERSION}
 
 push: # @HELP push cache-storage-node Docker image
