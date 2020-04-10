@@ -35,4 +35,4 @@ images: build
 	docker build . -f build/cache-storage-node/Dockerfile -t atomix/cache-storage-node:${STORAGE_VERSION}
 
 push: # @HELP push cache-storage-node Docker image
-	docker push atomix/cache-storage:${STORAGE_VERSION}
+	docker push atomix/cache-storage-node:${STORAGE_VERSION}
