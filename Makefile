@@ -28,7 +28,8 @@ linters: # @HELP examines Go source code and reports coding problems
 	GOGC=75  golangci-lint run
 
 license_check: # @HELP examine and ensure license headers exist
-	./build/licensing/boilerplate.py -v
+	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
+	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR}
 
 images: # @HELP build cache-storage-node Docker image
 image: build
