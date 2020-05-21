@@ -23,7 +23,6 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/atomix/api/proto/atomix/controller"
 	"github.com/atomix/go-framework/pkg/atomix/registry"
 	"github.com/atomix/go-local/pkg/atomix/local"
 	"github.com/gogo/protobuf/jsonpb"

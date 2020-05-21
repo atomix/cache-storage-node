@@ -4,7 +4,6 @@ go 1.13
 
 require (
 	github.com/atomix/api v0.2.0
-	github.com/atomix/go-client v0.0.0-20200211010855-927b10345735 // indirect
 	github.com/atomix/go-framework v0.2.0
 	github.com/atomix/go-local v0.2.0
 	github.com/gogo/protobuf v1.3.1
