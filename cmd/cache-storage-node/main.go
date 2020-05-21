@@ -17,6 +17,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"github.com/atomix/api/proto/atomix/database"
 	"io/ioutil"
 	"net"
 	"os"
@@ -36,7 +37,7 @@ func main() {
 	clusterConfig := parseClusterConfig()
 
 	// Start the node. The node will be started in its own goroutine.
-	member := clusterConfig.Members[0]
+	member := clusterConfig.Replicas[0]
 	log.Info(member.Host, ":", member.APIPort)
 	address := fmt.Sprintf(":%d", member.APIPort)
 	lis, err := net.Listen("tcp", address)
@@ -62,9 +63,9 @@ func main() {
 	}
 }
 
-func parseClusterConfig() *controller.ClusterConfig {
+func parseClusterConfig() *database.DatabaseConfig {
 	clusterConfigFile := os.Args[2]
-	clusterConfig := &controller.ClusterConfig{}
+	clusterConfig := &database.DatabaseConfig{}
 	clusterConfigBytes, err := ioutil.ReadFile(clusterConfigFile)
 	if err != nil {
 		fmt.Println(err)
