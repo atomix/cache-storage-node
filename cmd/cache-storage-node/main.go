@@ -25,6 +25,7 @@ import (
 	"github.com/atomix/go-framework/pkg/atomix/list"
 	logprimitive "github.com/atomix/go-framework/pkg/atomix/log"
 	"github.com/atomix/go-framework/pkg/atomix/map"
+	"github.com/atomix/go-framework/pkg/atomix/primitive"
 	"github.com/atomix/go-framework/pkg/atomix/set"
 	"github.com/atomix/go-framework/pkg/atomix/value"
 	"io/ioutil"
@@ -54,7 +55,11 @@ func main() {
 	}
 
 	// Create a local node
-	node := local.NewNode(lis, clusterConfig.Partitions)
+	partitions := make([]primitive.PartitionID, len(clusterConfig.Partitions))
+	for i, partition := range clusterConfig.Partitions {
+		partitions[i] = primitive.PartitionID(partition.Partition)
+	}
+	node := local.NewNode(lis, partitions)
 
 	// Register primitives on the Atomix node
 	counter.RegisterPrimitive(node)
