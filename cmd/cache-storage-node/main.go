@@ -18,12 +18,20 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/atomix/api/proto/atomix/database"
+	"github.com/atomix/go-framework/pkg/atomix/counter"
+	"github.com/atomix/go-framework/pkg/atomix/election"
+	"github.com/atomix/go-framework/pkg/atomix/indexedmap"
+	"github.com/atomix/go-framework/pkg/atomix/leader"
+	"github.com/atomix/go-framework/pkg/atomix/list"
+	logprimitive "github.com/atomix/go-framework/pkg/atomix/log"
+	"github.com/atomix/go-framework/pkg/atomix/map"
+	"github.com/atomix/go-framework/pkg/atomix/set"
+	"github.com/atomix/go-framework/pkg/atomix/value"
 	"io/ioutil"
 	"net"
 	"os"
 	"os/signal"
 
-	"github.com/atomix/go-framework/pkg/atomix/registry"
 	"github.com/atomix/go-local/pkg/atomix/local"
 	"github.com/gogo/protobuf/jsonpb"
 	log "github.com/sirupsen/logrus"
@@ -44,7 +52,22 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	node := local.NewNode(lis, registry.Registry, clusterConfig.Partitions)
+
+	// Create a local node
+	node := local.NewNode(lis, clusterConfig.Partitions)
+
+	// Register primitives on the Atomix node
+	counter.RegisterPrimitive(node)
+	election.RegisterPrimitive(node)
+	indexedmap.RegisterPrimitive(node)
+	logprimitive.RegisterPrimitive(node)
+	leader.RegisterPrimitive(node)
+	list.RegisterPrimitive(node)
+	_map.RegisterPrimitive(node)
+	set.RegisterPrimitive(node)
+	value.RegisterPrimitive(node)
+
+	// Start the node
 	if err := node.Start(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
