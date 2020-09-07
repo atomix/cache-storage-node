@@ -23,6 +23,7 @@ import (
 	"github.com/atomix/go-framework/pkg/atomix/indexedmap"
 	"github.com/atomix/go-framework/pkg/atomix/leader"
 	"github.com/atomix/go-framework/pkg/atomix/list"
+	"github.com/atomix/go-framework/pkg/atomix/lock"
 	logprimitive "github.com/atomix/go-framework/pkg/atomix/log"
 	"github.com/atomix/go-framework/pkg/atomix/map"
 	"github.com/atomix/go-framework/pkg/atomix/primitive"
@@ -65,6 +66,7 @@ func main() {
 	counter.RegisterPrimitive(node)
 	election.RegisterPrimitive(node)
 	indexedmap.RegisterPrimitive(node)
+	lock.RegisterPrimitive(node)
 	logprimitive.RegisterPrimitive(node)
 	leader.RegisterPrimitive(node)
 	list.RegisterPrimitive(node)
