@@ -1,4 +1,4 @@
-module github.com/atomix/cache-storage
+module github.com/atomix/cache-storage-node
 
 go 1.13
 
