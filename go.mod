@@ -3,9 +3,9 @@ module github.com/atomix/cache-storage
 go 1.13
 
 require (
-	github.com/atomix/api v0.2.0
-	github.com/atomix/go-framework v0.3.0
-	github.com/atomix/go-local v0.3.0
+	github.com/atomix/api v0.3.1
+	github.com/atomix/go-framework v0.4.0
+	github.com/atomix/go-local v0.4.0
 	github.com/gogo/protobuf v1.3.1
 	github.com/sirupsen/logrus v1.4.2
 	golang.org/x/net v0.0.0-20191112182307-2180aed22343 // indirect
