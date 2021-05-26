@@ -13,7 +13,8 @@ all: build
 
 build: # @HELP build the source code
 build: deps license_check linters
-	GOOS=linux GOARCH=amd64 go build -o build/cache-storage-node/_output/cache-storage-node ./cmd/cache-storage-node
+	GOOS=linux GOARCH=amd64 go build -o build/_output/atomix-memory-storage-node ./cmd/atomix-memory-storage-node
+	GOOS=linux GOARCH=amd64 go build -o build/_output/atomix-memory-storage-driver ./cmd/atomix-memory-storage-driver
 
 deps: # @HELP ensure that the required dependencies are in place
 	go build -v ./...
@@ -30,9 +31,19 @@ linters: # @HELP examines Go source code and reports coding problems
 license_check: # @HELP examine and ensure license headers exist
 	./build/bin/license-check
 
-images: # @HELP build cache-storage-node Docker image
-image: build
-	docker build . -f build/cache-storage-node/Dockerfile -t atomix/cache-storage-node:${STORAGE_VERSION}
+images: # @HELP build Docker images
+images: build
+	docker build . -f build/atomix-memory-storage-node/Dockerfile -t atomix/atomix-memory-storage-node:${STORAGE_VERSION}
+	docker build . -f build/atomix-memory-storage-driver/Dockerfile -t atomix/atomix-memory-storage-driver:${STORAGE_VERSION}
 
-push: # @HELP push cache-storage-node Docker image
-	docker push atomix/cache-storage-node:${STORAGE_VERSION}
+kind: images
+	@if [ "`kind get clusters`" = '' ]; then echo "no kind cluster found" && exit 1; fi
+	kind load docker-image atomix/atomix-memory-storage-node:${STORAGE_VERSION}
+	kind load docker-image atomix/atomix-memory-storage-driver:${STORAGE_VERSION}
+
+clean: # @HELP clean build files
+	@rm -rf vendor build/_output
+
+push: # @HELP push atomix-memory-storage-node Docker image
+	docker push atomix/atomix-memory-storage-node:${STORAGE_VERSION}
+	docker push atomix/atomix-memory-storage-driver:${STORAGE_VERSION}
